@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
 
-export function Filter({ handleOnChangefilter }) {
+function Filter({ handleOnChangefilter }) {
   const IdFilter = uuid();
 
   return (
@@ -22,3 +24,12 @@ export function Filter({ handleOnChangefilter }) {
 Filter.propTypes = {
   handleOnChangefilter: PropTypes.func,
 };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleOnChangefilter: e =>
+      dispatch(actions.handleOnChangefilter(e.target.value)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Filter);

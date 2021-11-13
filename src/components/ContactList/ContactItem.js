@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import styles from 'components/ContactList/ContactList.module.css';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
 
-export function ContactItem({ number, id, name, deleteContact }) {
+function ContactItem({ number, id, name, deleteContact }) {
   return (
     <>
       <span className={styles.contactName}>{name}:</span>
@@ -19,6 +21,14 @@ export function ContactItem({ number, id, name, deleteContact }) {
     </>
   );
 }
+
+const mapDispatchToProps = disputch => {
+  return {
+    deleteContact: id => disputch(actions.deleteContact(id)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ContactItem);
 
 ContactItem.propTypes = {
   id: PropTypes.string.isRequired,

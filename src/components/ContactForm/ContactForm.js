@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
+import { connect } from 'react-redux';
 
+import * as actions from '../../redux/actions';
 import styles from 'components/ContactForm/ContactForm.module.css';
 
-export function ContactForm({ addNewCntacts, contacts }) {
+function ContactForm({ addNewContacts, contacts }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -26,7 +28,8 @@ export function ContactForm({ addNewCntacts, contacts }) {
     if (existedContact) {
       return alert(`${obj.name} is already in the contact list`);
     }
-    addNewCntacts(obj);
+    console.log(obj);
+    addNewContacts(obj);
     resetForm();
   };
 
@@ -86,6 +89,20 @@ export function ContactForm({ addNewCntacts, contacts }) {
     </form>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    contacts: state.contacts,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addNewContacts: obj => dispatch(actions.addNewCntacts(obj)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 
 ContactForm.propTypes = {
   contacts: PropTypes.array,
