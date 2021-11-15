@@ -1,14 +1,20 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 import * as actions from '../../redux/actions';
 import styles from 'components/ContactForm/ContactForm.module.css';
+import { getContacts } from '../../redux/selectors';
 
-function ContactForm({ addNewContacts, contacts }) {
+export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
+
+  const contacts = useSelector(getContacts);
+  const addNewContacts = obj => dispatch(actions.addNewCntacts(obj));
 
   const IdName = uuid();
   const IdNumber = uuid();
@@ -28,7 +34,6 @@ function ContactForm({ addNewContacts, contacts }) {
     if (existedContact) {
       return alert(`${obj.name} is already in the contact list`);
     }
-    console.log(obj);
     addNewContacts(obj);
     resetForm();
   };
@@ -90,21 +95,21 @@ function ContactForm({ addNewContacts, contacts }) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    contacts: state.contacts,
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     contacts: state.phonebook.contacts,
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addNewContacts: obj => dispatch(actions.addNewCntacts(obj)),
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     addNewContacts: obj => dispatch(actions.addNewCntacts(obj)),
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 
-ContactForm.propTypes = {
-  contacts: PropTypes.array,
-  addNewCntacts: PropTypes.func,
-};
+// ContactForm.propTypes = {
+//   contacts: PropTypes.array,
+//   addNewCntacts: PropTypes.func,
+// };

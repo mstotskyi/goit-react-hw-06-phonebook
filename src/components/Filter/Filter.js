@@ -1,10 +1,14 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 
-function Filter({ handleOnChangefilter }) {
+export default function Filter() {
   const IdFilter = uuid();
+  const dispatch = useDispatch();
+
+  const changefilter = e => dispatch(actions.changefilter(e.target.value));
 
   return (
     <>
@@ -15,21 +19,16 @@ function Filter({ handleOnChangefilter }) {
         type="text"
         name="filter"
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        onChange={handleOnChangefilter}
+        onChange={changefilter}
       />
     </>
   );
 }
 
-Filter.propTypes = {
-  handleOnChangefilter: PropTypes.func,
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     changefilter: e => dispatch(actions.changefilter(e.target.value)),
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleOnChangefilter: e =>
-      dispatch(actions.handleOnChangefilter(e.target.value)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Filter);
+// export default connect(null, mapDispatchToProps)(Filter);
